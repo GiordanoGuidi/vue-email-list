@@ -3,18 +3,25 @@ const endpoint = 'https://flynn.boolean.careers/exercises/api/random/mail';
 const app = createApp({
     data:()=>({
         emailList:[],
+        loading: false,
     }),
     methods:{
-
+        fetchData(){
+            this.loading = true;
+            for(let i = 0; i < 10; i++){
+                axios.get(endpoint)
+                .then((res)=>{
+                    this.emailList.push(res.data.response)
+                    if(this.emailList.length === 10){
+                        this.loading = false;
+                    }
+                })
+            }
+        }
     },
     created(){
-        for(let i = 0; i < 10; i++){
-            axios.get(endpoint)
-            .then((res)=>{
-                this.emailList.push(res.data.response)
-            })
-        }
-        console.log(this.emailList)
+        this.fetchData();
+        console.log(this.emailList.length,this.emailList)
     }
     
     
