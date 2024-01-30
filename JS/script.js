@@ -6,22 +6,21 @@ const app = createApp({
         loading: false,
     }),
     methods:{
+
         fetchData(){
             this.loading = true;
-            for(let i = 0; i < 10; i++){
-                axios.get(endpoint)
-                .then((res)=>{
-                    this.emailList.push(res.data.response)
-                    if(this.emailList.length === 10){
-                        this.loading = false;
-                    }
-                })
-            }
+            axios.get(endpoint)
+            .then((res)=>{
+                const email = res.data
+                this.emailList.push(email.response)
+                if(this.emailList.length === 10) this.loading = false;
+            }) 
         }
     },
     created(){
-        this.fetchData();
-        console.log(this.emailList.length,this.emailList)
+        for(let i = 0; i < 10; i++){
+            this.fetchData();
+        }
     }
     
     
